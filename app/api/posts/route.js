@@ -1,4 +1,4 @@
-import { getPosts, postPosts } from '../posts/handler';
+import { getPosts, postPosts, putPost } from '../posts/handler';
 import { NextResponse } from 'next/server';
 
 export async function GET() {
@@ -22,3 +22,5 @@ export async function POST(request) {
         return NextResponse.json({ error: error.message || 'Erro ao criar posts' }, { status: 500 });
     }
 }
+
+
