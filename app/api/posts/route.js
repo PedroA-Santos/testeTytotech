@@ -19,6 +19,6 @@ export async function POST(request) {
         return NextResponse.json(post);
     } catch (error) {
         console.error("Erro na rota POST:", error.message);
-        return NextResponse.json({ error: error.message || 'Erro ao criar post' }, { status: 500 });
+        return NextResponse.json({ error: error.message || 'Erro ao criar posts' }, { status: 500 });
     }
 }
