@@ -1,41 +1,38 @@
 import { getPosts, postPosts, putPost } from '../posts/handler';
 
 export default async function handler(req, res) {
-    if (req.method === 'GET') {
-        try {
+    try {
+        if (req.method === 'GET') {
+            const { id } = req.query;
+
+            if (id) {
+                const post = await getPosts(id);
+                return res.status(200).json(post);
+            }
+
             const posts = await getPosts();
-            res.status(200).json(posts);
-        } catch (error) {
-            console.error(error);
-            res.status(500).json({ error: 'Erro ao buscar os posts' });
-        }
-    } else {
-        res.status(405).json({ error: 'Método não permitido' });
-    }
-
-    if (req.method === 'POST') {
-        try {
-            const post = await postPosts();
-            res.status(200).json(post);
-        } catch (error) {
-            console.error(error)
-            res.status(500).json({ error: "Erro ao criar Post" })
+            return res.status(200).json(posts);
         }
 
-    } else {
-        res.status(405).json({ error: 'Método não permitido' });
-    }
-
-
-    if (req.method === 'PUT') {
-        try {
-            const post = await putPost();
-            res.status(200).json(post);
-        } catch (error) {
-            console.error(error);
-            res.status(500).json({ error: "Erro ao atualizar o post" })
+        if (req.method === 'POST') {
+            const post = await postPosts(req.body);
+            return res.status(201).json(post);
         }
-    } else {
+
+        if (req.method === 'PUT') {
+            const { id } = req.query || req.body;
+
+            if (!id) {
+                return res.status(400).json({ error: 'ID obrigatório para atualização' });
+            }
+
+            const post = await putPost(id, req.body);
+            return res.status(200).json(post);
+        }
+
         res.status(405).json({ error: 'Método não permitido' });
+    } catch (error) {
+        console.error("Erro no handler:", error);
+        res.status(500).json({ error: error.message || 'Erro interno do servidor' });
     }
 }

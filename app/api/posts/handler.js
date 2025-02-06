@@ -11,6 +11,19 @@ export const getPosts = async () => {
     }
 };
 
+
+export const getPostsById = async (id) => {
+    try {
+        const [results] = await connection.query('SELECT * FROM posts WHERE id = ?',
+            [id]
+        );
+        return results
+    } catch (error) {
+        console.error("Erro na consulta no banco:", error)
+        throw new Error("Erro ao buscar post")
+    }
+}
+
 export const postPosts = async (titulo, conteudo, categoria_id, usuario_id, imagem_url) => {
     try {
 
