@@ -1,4 +1,4 @@
-import { getPostsById, putPost } from "../handler";
+import { deletePost, getPostsById, putPost } from "../handler";
 import { NextResponse } from "next/server";
 
 
@@ -28,4 +28,21 @@ export async function GET(request, { params }) {
         console.error("Erro na rota GET", error.message);
         return NextResponse.json({ error: error.message || "Erro ao buscar post" }, { status: 500 });
     }
+}
+
+
+export async function DELETE(requeste, { params }) {
+
+    try {
+        if (!params || !params.id) {
+            return NextResponse.json({ error: "ID é obrigatório" }, { status: 400 });
+        }
+
+        const post = await deletePost(params.id);
+        return NextResponse.json("Post deletado com sucesso")
+    } catch (error) {
+        console.error('Erro na rota de DELETE', error.message)
+        return NextResponse.json({ error: error.message || "Erro ao deletar o post" }, { status: 500 });
+    }
+
 }

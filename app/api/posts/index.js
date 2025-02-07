@@ -1,4 +1,4 @@
-import { getPosts, postPosts, putPost } from '../posts/handler';
+import { deletePost, getPosts, postPosts, putPost } from '../posts/handler';
 
 export default async function handler(req, res) {
     try {
@@ -28,6 +28,18 @@ export default async function handler(req, res) {
 
             const post = await putPost(id, req.body);
             return res.status(200).json(post);
+        }
+
+
+        if (req.method === 'DELETE') {
+            const { id } = req.query || req.body
+
+            if (!id) {
+                return res.status(400).json({ error: 'ID obrigatório para atualização' });
+            }
+
+            const postDelete = await deletePost(id);
+            return res.status(200).json({ message: 'Post deletado com sucesso' })
         }
 
         res.status(405).json({ error: 'Método não permitido' });
