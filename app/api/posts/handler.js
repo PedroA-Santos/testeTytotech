@@ -45,7 +45,19 @@ export const putPost = async (titulo, conteudo, categoria_id, usuario_id, imagem
 
         return results;
     } catch (error) {
-        console.error('Erro no update de posts');
+        console.error('Erro no update de posts', error);
         throw new Error('Erro ao dar update no post');
+    }
+}
+
+
+
+export const deletePost = async (id) => {
+    try {
+        const results = await connection.query(`DELETE FROM posts WHERE id = ?`, [id])
+        return results;
+    } catch (error) {
+        console.error('Erro ao deletar o post no banco', error)
+        throw new Error('Erro ao dar o delete no post')
     }
 }
