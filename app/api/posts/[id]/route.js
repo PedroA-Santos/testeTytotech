@@ -42,7 +42,7 @@ export async function DELETE(requeste, { params }) {
             return NextResponse.json({ error: "ID é obrigatório" }, { status: 400 });
         }
 
-        const post = await deletePost(params.id);
+        await deletePost(params.id);
 
 
 
