@@ -4,6 +4,9 @@ import { NextResponse } from 'next/server';
 export async function GET() {
     try {
         const posts = await getPosts();
+        if (posts.length === 0) {
+            return NextResponse.json({ message: "Nenhum post encontrado" })
+        }
         return NextResponse.json(posts);
     } catch (error) {
         console.error("Erro na rota /api/posts:", error.message);

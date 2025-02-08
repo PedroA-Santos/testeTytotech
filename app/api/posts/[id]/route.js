@@ -22,7 +22,11 @@ export async function GET(request, { params }) {
             return NextResponse.json({ error: "ID é obrigatório" }, { status: 400 });
         }
 
+
         const post = await getPostsById(params.id);
+        if (post.length === 0) {
+            return NextResponse.json({ message: "Nenhum post encontrado" })
+        }
         return NextResponse.json(post);
     } catch (error) {
         console.error("Erro na rota GET", error.message);
@@ -39,6 +43,9 @@ export async function DELETE(requeste, { params }) {
         }
 
         const post = await deletePost(params.id);
+
+
+
         return NextResponse.json("Post deletado com sucesso")
     } catch (error) {
         console.error('Erro na rota de DELETE', error.message)
