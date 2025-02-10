@@ -50,10 +50,10 @@ export const putCategoria = async (nome, descricao, id) => {
 
 export const deleteCategoria = async (id) => {
     try {
-        const results = await connection.query("DELETE FROM categorias WHERE id =? ", [id])
+        const results = await connection.query("DELETE FROM categorias WHERE id = ? ", [id])
         return results;
     } catch (error) {
-        console.error("Erro ao deletar categoria do banco");
+        console.error("Erro ao deletar categoria do banco",error);
         throw new Error("Erro ao deletar categoria")
     }
 }
