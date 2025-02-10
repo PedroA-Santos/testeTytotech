@@ -1,4 +1,4 @@
-import { deleteCategoria, getCategoriasById, putCategoria } from "../../handler";
+import { deleteCategoria, getCategoriasById, putCategoria } from "../handler";
 import { NextResponse } from "next/server";
 
 export async function GET(request, { params }) {
