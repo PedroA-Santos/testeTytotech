@@ -58,7 +58,7 @@ export const putUsuario = async (nome, email, senha, id) => {
 
 export const deleteUsuario = async (id) => {
     try {
-        const results = await connection.query(`DELETE FROM usuarios WHERE id = ?`);
+        const results = await connection.query(`DELETE FROM usuarios WHERE id = ?`, [id]);
         return results;
     } catch (error) {
         console.error("Erro ao deletar usuário no banco", error)

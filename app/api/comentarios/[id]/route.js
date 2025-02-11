@@ -37,10 +37,6 @@ export async function PUT(request, { params }) {
 
     const { post_id, usuario_id, conteudo, criado_em } = await request.json();
 
-    if (!id) {
-        return NextResponse.json({ error: "ID é obrigatório" }, { status: 400 });
-    }
-
     try {
         const comentario = await putComentarios(post_id, usuario_id, conteudo, criado_em, id)
 
