@@ -1,36 +1,62 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+MINI BLOG DESENVOLVIDO COM NEXT.JS,SQL
 
-## Getting Started
+Antes de começar, certifique-se de ter instalado na sua máquina:
 
-First, run the development server:
+Node.js (versão 18 ou superior)
+Git
+Yarn ou npm (gerenciador de pacotes)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+1° PASSO 
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+CLONE O REPOSITÓRIO
+abra seu terminal e execute 
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+git clone https://github.com/PedroA-Santos/testeTytotech.git
+cd teste
 
-## Learn More
+Se estiver usando npm:
+npm install
 
-To learn more about Next.js, take a look at the following resources:
+Se estiver usando yarn:
+yarn install
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
+2° PASSO 
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+você deve configurar o arquivo db.js dentro da pasta api/database com seu banco sql
+
+import mysql from 'mysql2/promise';
+
+const connection = await mysql.createConnection({
+    host: 'seuhost',
+    user: 'seuuser',
+    password: 'suasenha',
+    database: 'sudatabase'
+});
+
+
+
+connection.connect(err => {
+    if (err) {
+        console.error('Erro ao conectar ao banco de dados:', err);
+        process.exit(1);
+    }
+    console.log('Conectado ao banco de dados.');
+});
+
+// Exportando a conexão
+export { connection };
+
+
+
+
+3°PASSO 
+
+INICIE O SERVIDOR
+
+npm run dev 
+
+O projeto rodará em http://localhost:3000 
