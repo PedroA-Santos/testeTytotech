@@ -2,9 +2,11 @@
 
 import React from "react";
 import useListPosts from "../hooks/useListPosts";
+import { useRouter } from "next/navigation";
 
 const Home = () => {
     const { posts, loading, error, success, fetchPosts } = useListPosts();
+    const router = useRouter();
 
     return (
         <div>
@@ -28,6 +30,9 @@ const Home = () => {
                                 style={{ width: "300px", height: "auto", borderRadius: "10px" }}
                             />
                         )}
+
+                        <button onClick={() => router.push(`/pages/editPost/${post.id}`)}>Editar</button>
+
                     </li>
                 ))}
             </ul>

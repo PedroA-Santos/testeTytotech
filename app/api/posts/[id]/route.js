@@ -16,24 +16,29 @@ export async function PUT(request, { params }) {
     }
 }
 
-export async function GET(request, { params }) {
+export async function GET(request) {
     try {
-        if (!params || !params.id) {
+
+        const url = new URL(request.url);
+        const id = url.pathname.split('/').pop();
+
+        if (!id) {
             return NextResponse.json({ error: "ID é obrigatório" }, { status: 400 });
         }
 
+        const posts = await getPostsById(id);
+        const post = posts.length ? posts[0] : null;
 
-        const post = await getPostsById(params.id);
-        if (post.length === 0) {
-            return NextResponse.json({ message: "Nenhum post encontrado" })
+        if (!post || post.length === 0) {
+            return NextResponse.json({ message: "Nenhum post encontrado" }, { status: 404 });
         }
-        return NextResponse.json(post);
+
+        return NextResponse.json(post, { status: 200 });
     } catch (error) {
-        console.error("Erro na rota GET", error.message);
+        console.error("Erro na rota GET:", error.message);
         return NextResponse.json({ error: error.message || "Erro ao buscar post" }, { status: 500 });
     }
 }
-
 
 export async function DELETE(requeste, { params }) {
 
