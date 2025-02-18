@@ -40,14 +40,17 @@ export async function GET(request) {
     }
 }
 
-export async function DELETE(requeste, { params }) {
+export async function DELETE(request) {
+
+    const url = new URL(request.url);
+    const id = url.pathname.split('/').pop();
 
     try {
-        if (!params || !params.id) {
+        if (!id) {
             return NextResponse.json({ error: "ID é obrigatório" }, { status: 400 });
         }
 
-        await deletePost(params.id);
+        await deletePost(id);
 
 
 
