@@ -2,10 +2,12 @@
 
 import React from "react";
 import useListPosts from "../hooks/useListPosts";
+import useDeletePost from "../hooks/useDeletePost";
 import { useRouter } from "next/navigation";
 
 const Home = () => {
     const { posts, loading, error, success, fetchPosts } = useListPosts();
+    const { deletePost } = useDeletePost();
     const router = useRouter();
 
     return (
@@ -31,8 +33,22 @@ const Home = () => {
                             />
                         )}
 
-                        <button onClick={() => router.push(`/pages/editPost/${post.id}`)}>Editar</button>
+                        <button
+                            onClick={() => router.push(`/pages/editPost/${post.id}`)}
+                            className="bg-blue-500 text-white px-3 py-1 rounded mr-2"
+                        >
+                            Editar
+                        </button>
 
+                        <button
+                            onClick={async () => {
+                                await deletePost(post.id);
+                                fetchPosts(); //  aqui chama a função de buscar posts ao deletar algum post para listar sem o post deletado
+                            }}
+                            className="bg-red-500 text-white px-3 py-1 rounded"
+                        >
+                            Deletar
+                        </button>
                     </li>
                 ))}
             </ul>
