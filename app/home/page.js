@@ -32,6 +32,7 @@ const Home = () => {
                                 style={{ width: "300px", height: "auto", borderRadius: "10px" }}
                             />
                         )}
+                        <p>{new Date(post.criado_em).toLocaleString('pt-BR')}</p>
 
                         <button
                             onClick={() => router.push(`/pages/editPost/${post.id}`)}
