@@ -3,7 +3,10 @@ import { connection } from "../database/db";
 
 export const getPosts = async () => {
     try {
-        const [results] = await connection.query('SELECT * FROM posts');
+        const [results] = await connection.query(` SELECT posts.id, posts.titulo, posts.conteudo, posts.imagem_url, posts.criado_em, categorias.nome AS categoria
+                FROM posts
+                LEFT JOIN categorias ON posts.categoria_id = categorias.id
+                ORDER BY posts.criado_em DESC`);
         return results;
     } catch (error) {
         console.error("Erro na consulta ao banco:", error);
