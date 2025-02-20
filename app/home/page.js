@@ -1,37 +1,41 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import useListPosts from "../hooks/useListPosts"
+import useListPosts from "../hooks/useListPosts";
 import useDeletePost from "../hooks/useDeletePost";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import useListCategorias from "../hooks/useListCategorias"; // Importando o hook de categorias
 
 const Home = () => {
     const { posts, loading, error, success, fetchPosts } = useListPosts();
     const { deletePost } = useDeletePost();
     const router = useRouter();
 
-    const [categorias, setCategorias] = useState([]);
+    const { categorias, loading: loadingCategorias, error: errorCategorias } = useListCategorias(); // Usando o hook de categorias
+
     const [categoriaSelecionada, setCategoriaSelecionada] = useState("");
-
-    // Carregar categorias do banco ao montar o componente
-    useEffect(() => {
-        const fetchCategorias = async () => {
-            try {
-                const response = await axios.get("http://localhost:3000/api/categorias");
-                setCategorias(response.data);
-            } catch (err) {
-                console.error("Erro ao buscar categorias:", err);
-            }
-        };
-
-        fetchCategorias();
-    }, []);
 
     // Filtrar posts pela categoria selecionada
     const postsFiltrados = categoriaSelecionada
         ? posts.filter((post) => post.categoria === categoriaSelecionada)
         : posts;
+
+    if (loadingCategorias) {
+        return <p>Carregando categorias...</p>;
+    }
+
+    if (errorCategorias) {
+        return <p style={{ color: "red" }}>Erro ao carregar categorias: {errorCategorias}</p>;
+    }
+
+    if (!categorias || categorias.length === 0) {
+        return <h1>Categorias não encontradas</h1>;
+    }
+
+    if (!posts || posts.length === 0) {
+        return <h1>Nenhum post criado</h1>;
+    }
 
     return (
         <div>
@@ -39,7 +43,7 @@ const Home = () => {
 
             <button onClick={fetchPosts}>Carregar Posts</button>
 
-            {loading && <p>Carregando...</p>}
+            {loading && <p>Carregando posts...</p>}
             {error && <p style={{ color: "red" }}>{error}</p>}
             {success && <p style={{ color: "green" }}>{success}</p>}
 
