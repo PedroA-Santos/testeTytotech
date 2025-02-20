@@ -13,15 +13,19 @@ export const getComentarios = async () => {
 
 
 
-export const getComentariosById = async (id) => {
+export const getComentariosByPostId = async (post_id) => {
     try {
-        const [results] = await connection.query(`SELECT * FROM comentarios WHERE id = ?`, [id])
+        const [results] = await connection.query(
+            `SELECT * FROM comentarios WHERE post_id = ?`,
+            [post_id]
+        );
         return results;
     } catch (error) {
-        console.error("Erro ao buscar comentario pelo id no banco", error)
-        throw new Error("Erro ao buscar comentário")
+        console.error("Erro ao buscar comentários do post no banco", error);
+        throw new Error("Erro ao buscar comentários");
     }
-}
+};
+
 
 
 

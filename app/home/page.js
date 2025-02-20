@@ -93,10 +93,16 @@ const Home = () => {
                         >
                             Deletar
                         </button>
+                        <button
+                            onClick={() => router.push(`/pages/comentarios/${post.id}`)}
+                            className="bg-red-500 text-white px-3 py-1 rounded"
+                        >
+                            Ver comentários
+                        </button>
                     </li>
                 ))}
             </ul>
-        </div>
+        </div >
     );
 };
 
