@@ -18,6 +18,8 @@ function useListPostsDetail(postId) {
             setLoading(true);
             try {
                 const response = await axios.get(`http://localhost:3000/api/posts/${postId}`);
+                console.log(response.data);
+
 
                 if (!response.data) {
                     setError("Nenhum post encontrado");
