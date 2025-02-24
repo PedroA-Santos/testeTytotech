@@ -14,7 +14,7 @@ export async function GET(request) {
         const comentarios = await getComentariosByPostId(id); // FUNÇÃO QUE BUSCA TODOS OS COMENTÁRIOS PELO ID DO POST 
 
         if (comentarios.length === 0) {
-            return NextResponse.json({ message: "Nenhum comentário encontrado para este post" });
+            return NextResponse.json([]);
         }
 
         return NextResponse.json(comentarios);

@@ -9,7 +9,7 @@ export async function GET() {
         const comentarios = await getComentarios();
 
         if (comentarios.length === 0) {
-            return NextResponse.json({ message: "Nenhum comentário encontrado" })
+            return NextResponse.json([])
         }
 
 

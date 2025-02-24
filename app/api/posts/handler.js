@@ -17,13 +17,16 @@ export const getPosts = async () => {
 
 export const getPostsById = async (id) => {
     try {
-        const [results] = await connection.query('SELECT * FROM posts WHERE id = ?',
-            [id]
+        const [results] = await connection.query(`
+            SELECT posts.id, posts.titulo, posts.conteudo, posts.imagem_url, posts.criado_em, categorias.nome AS categoria
+            FROM posts
+            LEFT JOIN categorias ON posts.categoria_id = categorias.id
+            WHERE posts.id = ?`, [id]
         );
-        return results
+        return results;
     } catch (error) {
-        console.error("Erro na consulta no banco:", error)
-        throw new Error("Erro ao buscar post")
+        console.error("Erro na consulta no banco:", error);
+        throw new Error("Erro ao buscar post");
     }
 }
 
