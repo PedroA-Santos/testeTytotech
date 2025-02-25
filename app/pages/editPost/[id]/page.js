@@ -1,10 +1,19 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import useEditPost from "../../../hooks/useEditPost";
+import useListCategorias from "@/app/hooks/useListCategorias";
+import { useRouter } from "next/navigation";
 
 const EditPostPage = () => {
     const { post, handleChange, updatePost, loading, error, success } = useEditPost();
+    const { categorias, fetchCategorias } = useListCategorias();
+
+    const router = useRouter();
+
+    useEffect(() => {
+        fetchCategorias();
+    }, []);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -49,27 +58,25 @@ const EditPostPage = () => {
                 </div>
 
                 <div>
-                    <label className="block text-sm font-medium">Categoria ID:</label>
-                    <input
-                        type="text"
+                    <label className="block text-sm font-medium">Categoria:</label>
+                    <select
                         name="categoria_id"
-                        value={post.categoria_id || ''}
+                        value={
+                            /* Busca na lista de categorias um objeto onde nome seja igual ao post.categoria e retorna seu id.*/
+                            categorias.find((c) => c.nome === post.categoria)?.id || ''}
                         onChange={handleChange}
                         className="w-full border p-2 rounded"
                         required
-                    />
-                </div>
+                    >
+                        <option value="">Selecione uma categoria</option>
+                        {categorias.map((categoria) => (
+                            <option key={categoria.id} value={categoria.id}>
+                                {categoria.nome}
+                            </option>
+                        ))}
+                    </select>
 
-                <div>
-                    <label className="block text-sm font-medium">Usuário ID:</label>
-                    <input
-                        type="text"
-                        name="usuario_id"
-                        value={post.usuario_id || ''}
-                        onChange={handleChange}
-                        className="w-full border p-2 rounded"
-                        required
-                    />
+
                 </div>
 
                 <div>
@@ -90,7 +97,11 @@ const EditPostPage = () => {
                 >
                     {loading ? "Atualizando..." : "Atualizar Post"}
                 </button>
+
             </form>
+
+
+            <button onClick={() => router.push(`/home`)}>Voltar</button>
         </div>
     );
 };
